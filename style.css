@@ -120,6 +120,8 @@ body {
     flex-direction: column;
     gap: 1.5rem;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* =========================================================
@@ -321,6 +323,8 @@ body {
     flex: 1;
     padding: 1.5rem;
     overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .company-section {
@@ -445,6 +449,8 @@ body {
     display: flex;
     flex-direction: column;
     max-height: 100vh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .products-header {
@@ -481,7 +487,7 @@ body {
     gap: 1rem;
     flex: 1;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 0;
 }
 
 /* Grid layout styling for products container */
@@ -635,11 +641,19 @@ body {
 
 /* Manufacturers section styling */
 .manufacturers-section {
-    padding: 5px;
-    width: 100%;
+    padding: -50px;
+    width: 350px;
     text-align: center;
     overflow-y: auto;
     height: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.manufacturers-section::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 .manufacturers-content h3 {
@@ -653,7 +667,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 15px;
-    padding: 10px;
+    padding: 10px 10px 10px 0px;
     justify-items: stretch;
 }
 
@@ -903,27 +917,25 @@ body {
     background-color: var(--accent-color-dark);
 }
 
-/* Smooth scrollbar */
+/* Hide all scrollbars while keeping scroll functionality */
 .products-container::-webkit-scrollbar,
-.sidebar::-webkit-scrollbar {
-    width: 6px;
+.sidebar::-webkit-scrollbar,
+.main-content::-webkit-scrollbar,
+.items-list::-webkit-scrollbar,
+*::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
-.products-container::-webkit-scrollbar-track,
-.sidebar::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
-    border-radius: 3px;
-}
-
-.products-container::-webkit-scrollbar-thumb,
-.sidebar::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 3px;
-}
-
-.products-container::-webkit-scrollbar-thumb:hover,
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--text-muted);
+/* Firefox scrollbar hiding */
+.products-container,
+.sidebar,
+.main-content,
+.items-list,
+* {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* Loading animation */
