@@ -98,6 +98,7 @@ const homeBadge = document.getElementById('homeBadge');
 // - updates the home badge (counter disabled by design)
 document.addEventListener('DOMContentLoaded', async function() {
     initializeEventListeners();
+    initializeModalEventListeners();
     await loadAllData();
     selectCategory('All Products');
     updateHomeBadge();
@@ -455,6 +456,7 @@ function renderProducts() {
 function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
+    card.style.cursor = 'pointer';
     
     // Use provided image or a minimal placeholder
     const imagePath = product.imagePath ? product.imagePath : '';
@@ -473,10 +475,82 @@ function createProductCard(product) {
         </div>
     `;
     
+    // Add click event listener to open modal
+    card.addEventListener('click', () => {
+        openProductModal(product);
+    });
+    
     return card;
 }
 
 // Cart functionality removed
+
+// =========================================================
+// Product Modal Functionality
+// =========================================================
+function openProductModal(product) {
+    const modal = document.getElementById('productModal');
+    const modalProductImage = document.getElementById('modalProductImage');
+    const modalProductName = document.getElementById('modalProductName');
+    const modalProductDescription = document.getElementById('modalProductDescription');
+    const modalProductCategory = document.getElementById('modalProductCategory');
+    
+    // Populate modal with product data
+    const imagePath = product.imagePath ? product.imagePath : '';
+    const imageContent = imagePath ? 
+        `<img src="${imagePath}" alt="${product.name}">` : 
+        `<span>Product Image</span>`;
+    
+    modalProductImage.innerHTML = imageContent;
+    modalProductName.textContent = product.name;
+    modalProductDescription.textContent = product.description;
+    modalProductCategory.textContent = product.category;
+    
+    // Show modal with animation
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+function closeProductModal() {
+    const modal = document.getElementById('productModal');
+    
+    // Hide modal with animation
+    modal.classList.remove('active');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 300);
+    
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
+}
+
+// Initialize modal event listeners
+function initializeModalEventListeners() {
+    const modal = document.getElementById('productModal');
+    const modalClose = document.getElementById('modalClose');
+    
+    // Close modal when clicking the close button
+    modalClose.addEventListener('click', closeProductModal);
+    
+    // Close modal when clicking the overlay (but not the modal content)
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeProductModal();
+        }
+    });
+    
+    // Close modal when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeProductModal();
+        }
+    });
+}
 
 // =========================================================
 // Badges
