@@ -76,7 +76,7 @@ async function loadAllData() {
 // ---------------------------
 // Global state
 // ---------------------------
-let currentCategory = 'Home';
+let currentCategory = 'All Products';
 let searchTerm = '';
 let currentManufacturer = null; // When set, filter by this manufacturer
 
@@ -99,7 +99,7 @@ const homeBadge = document.getElementById('homeBadge');
 document.addEventListener('DOMContentLoaded', async function() {
     initializeEventListeners();
     await loadAllData();
-    renderProducts();
+    selectCategory('All Products');
     updateHomeBadge();
 });
 
@@ -148,6 +148,7 @@ function initializeEventListeners() {
 function selectCategory(category) {
     currentCategory = category;
     currentManufacturer = null; // Clear manufacturer filter on category change
+    selectedManufacturer = null; // Clear selected manufacturer visual state
     searchTerm = '';
     searchInput.value = '';
     
@@ -206,8 +207,15 @@ function selectCategory(category) {
 // ---------------------------
 // Manufacturer filtering
 // ---------------------------
+let selectedManufacturer = null; // Track the currently selected manufacturer for visual state
+
 function selectManufacturer(manufacturer) {
     currentManufacturer = manufacturer;
+    selectedManufacturer = manufacturer; // Update selected state for visual feedback
+    
+    // Update visual state of manufacturer cards
+    updateManufacturerCardStates();
+    
     renderProducts();
     
     // Close mobile menu if open (for better UX on mobile)
@@ -227,8 +235,23 @@ function selectManufacturer(manufacturer) {
     }
 }
 
+// Update visual states of manufacturer cards
+function updateManufacturerCardStates() {
+    const manufacturerCards = document.querySelectorAll('.manufacturer-card');
+    manufacturerCards.forEach(card => {
+        const cardManufacturer = card.getAttribute('data-manufacturer');
+        if (cardManufacturer === selectedManufacturer) {
+            card.classList.add('selected');
+        } else {
+            card.classList.remove('selected');
+        }
+    });
+}
+
 function clearManufacturerFilter() {
     currentManufacturer = null;
+    selectedManufacturer = null; // Clear selected state
+    updateManufacturerCardStates(); // Update visual states
     renderProducts();
 }
 
@@ -338,7 +361,7 @@ function renderProducts() {
             { name: 'CTN', filename: 'CTN-New-Logo-677x329.png', url: 'https://ctn.com.kh/' },
             { name: 'MYTV', filename: 'MYTVLOGO.png', url: 'https://mytv.com.kh/' },
             { name: 'CNC', filename: 'CNCLOGO.jpg', url: 'https://cnc.com.kh/' },
-            { name: 'CNC Sports', filename: 'CNCSPORTSLOGO.png', url: 'https://cbssport.com.kh/' }
+            { name: 'CBS Digital', filename: 'CbsdigitalLogo.png', url: 'https://cbsdigital.com.kh/' }
         ];
         
         aboutUsSection.innerHTML = `
@@ -375,8 +398,9 @@ function renderProducts() {
                         <div class="manufacturers-grid">
                             ${uniqueManufacturers.map(manufacturer => {
                                 const manufacturerData = manufacturers.find(m => m.name === manufacturer);
+                                const isSelected = manufacturer === selectedManufacturer;
                                 return `
-                                    <div class="manufacturer-card" onclick="selectManufacturer('${manufacturer}')">
+                                    <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
                                         ${manufacturerData && manufacturerData.logoPath ? 
                                             `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">
                                             <div class="manufacturer-line"></div>` : 
@@ -391,7 +415,7 @@ function renderProducts() {
                                                 `<p class="manufacturer-contact"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
                                             }
                                             ${manufacturerData && manufacturerData.businessSocialNetwork ? 
-                                                `<p class="manufacturer-social"><i class="fa-brands fa-facebook" aria-hidden="true"></i> <strong>Social Network:</strong> ${manufacturerData.businessSocialNetwork}</p>` : ''
+                                                `<p class="manufacturer-social"><i class="fa-brands fa-facebook" aria-hidden="true"></i> <strong>Social Network:</strong> <a href="${manufacturerData.businessSocialNetwork.startsWith('http') ? manufacturerData.businessSocialNetwork : 'https://' + manufacturerData.businessSocialNetwork}" target="_blank" rel="noopener noreferrer">${manufacturer}</a></p>` : ''
                                             }
                                         </div>
                                     </div>

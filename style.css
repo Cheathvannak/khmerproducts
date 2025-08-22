@@ -191,24 +191,48 @@ body {
 
 .nav-btn i { margin-right: 8px; font-size: 16px; }
 
+/* Home button specific styling */
+.home-btn {
+    width: 100%;
+    height: 250px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    position: relative;
+}
+
 /* Home logos container */
 .home-logos {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-right: 8px;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 /* Home logo styling */
 .home-logo {
-    height: 24px;
-    width: auto;
+    width: 320px;
+    height: 320px;
     object-fit: contain;
 }
 
 /* Special layout for buttons with badges (like Home) */
 .nav-btn:has(.badge) {
     justify-content: space-between;
+}
+
+/* Home button badge positioning */
+.home-btn .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .category-label {
@@ -235,6 +259,59 @@ body {
 }
 
 /* Cart Summary - Removed */
+/* Contact Us Section */
+.contact-us-section {
+    margin-top: auto;
+    padding: 1.5rem 0 0 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.contact-info {
+    margin-bottom: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.contact-item:last-child {
+    margin-bottom: 0;
+}
+
+.contact-icon {
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.contact-text {
+    flex: 1;
+}
+
+.contact-text p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin: 0;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.copyright p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.3;
+}
+
 /* Sign In Button - Removed */
 
 /* =========================================================
@@ -549,6 +626,12 @@ body {
     object-fit: contain;
 }
 
+/* CBS Digital logo specific styling to make it larger */
+.logo-image[src*="CbsdigitalLogo.png"] {
+    max-height: 160px;
+    max-width: 160px;
+}
+
 /* Manufacturers section styling */
 .manufacturers-section {
     padding: 5px;
@@ -595,6 +678,19 @@ body {
     box-shadow: 0 5px 5px rgba(0,0,0,0.15);
 }
 
+/* Selected manufacturer card state - locks the hover appearance */
+.manufacturer-card.selected {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 5px rgba(0,0,0,0.15);
+    border: 2px solid var(--accent-amber);
+}
+
+/* Prevent hover effects on selected cards to maintain locked state */
+.manufacturer-card.selected:hover {
+    transform: translateY(-5px); /* Keep the same transform */
+    box-shadow: 0 5px 5px rgba(0,0,0,0.15); /* Keep the same shadow */
+}
+
 .manufacturer-logo {
     max-width: 150px;
     max-height: 100px;
@@ -617,12 +713,22 @@ body {
     color: var(--primary-color);
     margin-bottom: 5px;
     text-align: left;
-}
-
 .manufacturer-info {
     margin: 15px 0;
     text-align: center;
     width: 100%;
+}
+
+.manufacturer-social a {
+    color: var(--accent-amber);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.manufacturer-social a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
 .manufacturer-title {   
@@ -868,3 +974,4 @@ body {
     display: block;
 }
 
+}
