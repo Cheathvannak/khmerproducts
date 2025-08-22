@@ -22,20 +22,19 @@
     <div class="container">
         <!-- ======================= Sidebar ======================= -->
         <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
-            <!-- Search -->
-            <div class="search-container">
-                <div class="search-box">
-                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
-                    <input type="text" id="searchInput" placeholder="Search products..." class="search-input" aria-label="Search products">
-                </div>
-            </div>
+            <!-- Search moved to products section -->
 
             <!-- Navigation -->
             <nav class="navigation" aria-label="Primary">
                 <!-- Home -->
                 <button class="nav-btn home-btn active" data-category="Home" aria-current="page">
-                    <i class="fas fa-home" aria-hidden="true"></i>
-                    <span>Home</span>
+                    <div class="home-logos">
+                        <img src="CBSLOGO/cbslogo.png" alt="CBS Logo" class="home-logo">
+                        <img src="CBSLOGO/CTN-New-Logo-677x329.png" alt="CTN Logo" class="home-logo">
+                        <img src="CBSLOGO/MYTVLOGO.png" alt="MYTV Logo" class="home-logo">
+                        <img src="CBSLOGO/CNCLOGO.jpg" alt="CNC Logo" class="home-logo">
+                        <img src="CBSLOGO/CNCSPORTSLOGO.png" alt="CNC Sports Logo" class="home-logo">
+                    </div>
                     <span class="badge"></span>
                 </button>
 
@@ -117,6 +116,13 @@
         <section class="products-section" aria-label="Product list">
             <div class="products-header">
                 <h2 class="products-title" id="productsTitle">All Products</h2>
+                <!-- Search -->
+                <div class="search-container" id="searchContainer" style="display: none;">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        <input type="text" id="searchInput" placeholder="Search products..." class="search-input" aria-label="Search products">
+                    </div>
+                </div>
             </div>
             
             <div class="products-container" id="productsContainer">

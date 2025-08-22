@@ -1,7 +1,7 @@
 // ---------------------------
 // API Configuration
 // ---------------------------
-// Use relative URL for production deployment, fallback to localhost for development
+// Use localhost for development, with fallback detection
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
     ? 'http://127.0.0.1:5000/api' 
     : '/api';
@@ -158,6 +158,38 @@ function selectCategory(category) {
     const activeButton = document.querySelector(`[data-category="${category}"]`);
     if (activeButton) {
         activeButton.classList.add('active');
+    }
+    
+    // Show/hide search container based on category
+    const searchContainer = document.getElementById('searchContainer');
+    if (searchContainer) {
+        if (category === 'Home') {
+            searchContainer.style.display = 'none';
+        } else {
+            searchContainer.style.display = 'block';
+        }
+    }
+    
+    // Adjust products section layout based on category
+    const productsSection = document.querySelector('.products-section');
+    const productsContainer = document.getElementById('productsContainer');
+    
+    if (productsSection && productsContainer) {
+        if (category === 'Home') {
+            // Home page: smaller products section, single column
+            productsSection.style.width = '384px';
+            productsContainer.style.display = 'flex';
+            productsContainer.style.flexDirection = 'column';
+            productsContainer.style.gridTemplateColumns = '';
+            productsContainer.style.gap = '1rem';
+        } else {
+            // Other pages: wider products section, 2-column grid
+            productsSection.style.width = '600px';
+            productsContainer.style.display = 'grid';
+            productsContainer.style.flexDirection = '';
+            productsContainer.style.gridTemplateColumns = '1fr 1fr';
+            productsContainer.style.gap = '1.5rem';
+        }
     }
     
     // Show/hide company image based on category
@@ -346,19 +378,20 @@ function renderProducts() {
                                 return `
                                     <div class="manufacturer-card" onclick="selectManufacturer('${manufacturer}')">
                                         ${manufacturerData && manufacturerData.logoPath ? 
-                                            `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">` : 
+                                            `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">
+                                            <div class="manufacturer-line"></div>` : 
                                             `<div class="manufacturer-name">${manufacturer}</div>`
                                         }
                                         <div class="manufacturer-info">
                                             <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
                                             ${manufacturerData && manufacturerData.businessAddress ? 
-                                                `<p class="manufacturer-address"><strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
+                                                `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
                                             }
                                             ${manufacturerData && manufacturerData.businessContact ? 
-                                                `<p class="manufacturer-contact"><strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
+                                                `<p class="manufacturer-contact"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
                                             }
                                             ${manufacturerData && manufacturerData.businessSocialNetwork ? 
-                                                `<p class="manufacturer-social"><strong>Social Network:</strong> ${manufacturerData.businessSocialNetwork}</p>` : ''
+                                                `<p class="manufacturer-social"><i class="fa-brands fa-facebook" aria-hidden="true"></i> <strong>Social Network:</strong> ${manufacturerData.businessSocialNetwork}</p>` : ''
                                             }
                                         </div>
                                     </div>
@@ -376,14 +409,7 @@ function renderProducts() {
     
     const filteredProducts = getFilteredProducts();
     
-    // If a manufacturer is selected, show a clear-filter button
-    if (currentManufacturer) {
-        const clearFilterBtn = document.createElement('button');
-        clearFilterBtn.className = 'clear-filter-btn';
-        clearFilterBtn.textContent = `Clear ${currentManufacturer} filter`;
-        clearFilterBtn.addEventListener('click', clearManufacturerFilter);
-        productsContainer.appendChild(clearFilterBtn);
-    }
+    // Removed clear manufacturer filter button as requested
     
     // No matching products state
     if (filteredProducts.length === 0) {

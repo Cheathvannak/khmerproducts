@@ -191,6 +191,21 @@ body {
 
 .nav-btn i { margin-right: 8px; font-size: 16px; }
 
+/* Home logos container */
+.home-logos {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+}
+
+/* Home logo styling */
+.home-logo {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+}
+
 /* Special layout for buttons with badges (like Home) */
 .nav-btn:has(.badge) {
     justify-content: space-between;
@@ -366,6 +381,20 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* Search container styling when in products header */
+.products-header .search-container {
+    margin-top: 0.5rem;
+}
+
+.products-header .search-box {
+    max-width: 300px;
+}
+
+.products-header .search-input {
+    font-size: 13px;
+    padding: 10px 10px 10px 36px;
+}
+
 
 
 .products-container {
@@ -375,6 +404,12 @@ body {
     flex: 1;
     overflow-y: auto;
     padding-right: 5px;
+}
+
+/* Grid layout styling for products container */
+.products-container[style*="display: grid"] {
+    gap: 1.5rem;
+    grid-auto-rows: min-content;
 }
 
 /* Product Card Styles */
@@ -516,7 +551,7 @@ body {
 
 /* Manufacturers section styling */
 .manufacturers-section {
-    padding: 40px;
+    padding: 5px;
     width: 100%;
     text-align: center;
     overflow-y: auto;
@@ -532,32 +567,32 @@ body {
 
 .manufacturers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 20px;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    justify-items: stretch;
 }
 
 .manufacturer-card {
     background: white;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 9px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    text-align: center;
+    text-align: left;
     min-height: 200px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
+    align-items: left;
+    justify-content: left;
     width: 100%;
+    max-width: 100%;
+    border: 1px solid var(--border-color);
 }
 
 .manufacturer-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 5px rgba(0,0,0,0.15);
 }
 
 .manufacturer-logo {
@@ -566,14 +601,22 @@ body {
     width: auto;
     height: auto;
     object-fit: contain;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+}
+
+.manufacturer-line {
+    width: 100%;
+    height: 0.5px;
+    background: grey;
+    border-radius: 2px;
+    margin: 0 auto 8px auto;
 }
 
 .manufacturer-name {
     font-size: 1.5rem;
-    font-weight: 600;
     color: var(--primary-color);
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    text-align: left;
 }
 
 .manufacturer-info {
@@ -582,12 +625,12 @@ body {
     width: 100%;
 }
 
-.manufacturer-title {
+.manufacturer-title {   
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--primary-color);
-    margin: 0 0 10px 0;
-    text-align: center;
+    margin: 0 0 5px 0;
+    text-align: left;
 }
 
 .manufacturer-address,
