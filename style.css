@@ -455,16 +455,17 @@ body {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
 /* Search container styling when in products header */
 .products-header .search-container {
-    margin-top: 0.5rem;
+    margin-bottom: 0;
 }
 
 .products-header .search-box {
-    max-width: 300px;
+    width: 100%;
 }
 
 .products-header .search-input {

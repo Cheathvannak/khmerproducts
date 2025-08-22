@@ -394,7 +394,6 @@ function renderProducts() {
             companySection.innerHTML = `
                 <div class="manufacturers-section">
                     <div class="manufacturers-content">
-                        <h3>Manufacturers</h3>
                         <div class="manufacturers-grid">
                             ${uniqueManufacturers.map(manufacturer => {
                                 const manufacturerData = manufacturers.find(m => m.name === manufacturer);
