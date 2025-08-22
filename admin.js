@@ -1,7 +1,10 @@
 // ======================= Admin Panel JavaScript ======================= //
 
 // API Configuration
-const API_BASE_URL = 'http://127.0.0.1:5000/api';
+// Use relative URL for production deployment, fallback to localhost for development
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://127.0.0.1:5000/api' 
+    : '/api';
 
 // DOM Elements
 const adminNavButtons = document.querySelectorAll('.admin-nav-btn');

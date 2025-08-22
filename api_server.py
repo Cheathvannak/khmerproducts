@@ -16,7 +16,8 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Database configuration
-DATABASE_PATH = 'khmer_products.db'
+# Use absolute path for production deployment
+DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'khmer_products.db')
 
 # File upload configuration
 UPLOAD_FOLDER = '.'
