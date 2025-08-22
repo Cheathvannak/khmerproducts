@@ -1,0 +1,157 @@
+{
+  "manufacturers": [
+    {
+      "id": 1,
+      "name": "CamboChef",
+      "description": "CamboChef",
+      "logo_path": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 3,
+      "name": "Khmer Beverages",
+      "description": "Khmer Beverages",
+      "logo_path": "KhmerBeverages/KhmerBeverages_Logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 2,
+      "name": "Kirisu",
+      "description": "Kirisu Farm",
+      "logo_path": "Kirisu/kirisu_logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    }
+  ],
+  "products": [
+    {
+      "id": 10,
+      "name": "Barista Milk",
+      "category": "Dairy",
+      "description": "Kirisu Farm",
+      "image_path": "Kirisu/Kirisu_BaristaMilk.png",
+      "manufacturer_name": "Kirisu",
+      "manufacturer_description": "Kirisu Farm",
+      "manufacturer_logo": "Kirisu/kirisu_logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 8,
+      "name": "Cambodia Premium Water",
+      "category": "Food & Beverages",
+      "description": "Khmer Beverages",
+      "image_path": "KhmerBeverages/Cambodia_Premium_Water.png",
+      "manufacturer_name": "Khmer Beverages",
+      "manufacturer_description": "Khmer Beverages",
+      "manufacturer_logo": "KhmerBeverages/KhmerBeverages_Logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 6,
+      "name": "Dish Soap",
+      "category": "Household",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_dishsoap.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 1,
+      "name": "Fish Sauce",
+      "category": "Condiments & Sauces",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_fishsauce.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 7,
+      "name": "Fresh Milk",
+      "category": "Dairy",
+      "description": "Kirisu Farm",
+      "image_path": "Kirisu/Kirisu_FreshMilk.png",
+      "manufacturer_name": "Kirisu",
+      "manufacturer_description": "Kirisu Farm",
+      "manufacturer_logo": "Kirisu/kirisu_logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 4,
+      "name": "Premium Anchovy Sauce",
+      "category": "Condiments & Sauces",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_premiumanchovysauce.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 3,
+      "name": "Premium Oyster Sauce",
+      "category": "Condiments & Sauces",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_oystersauce.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 2,
+      "name": "Romduol Cooking Oil",
+      "category": "Condiments & Sauces",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_cookingoil.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 5,
+      "name": "Soy Sauce",
+      "category": "Condiments & Sauces",
+      "description": "CamboChef",
+      "image_path": "CamboChef/cambochef_soysauce.jpg",
+      "manufacturer_name": "CamboChef",
+      "manufacturer_description": "CamboChef",
+      "manufacturer_logo": "CamboChef/cambochef_logo.jpg",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    },
+    {
+      "id": 9,
+      "name": "Wurkz Energy Drink",
+      "category": "Food & Beverages",
+      "description": "Khmer Beverages",
+      "image_path": "KhmerBeverages/Wurkz.png",
+      "manufacturer_name": "Khmer Beverages",
+      "manufacturer_description": "Khmer Beverages",
+      "manufacturer_logo": "KhmerBeverages/KhmerBeverages_Logo.png",
+      "created_at": "2025-08-20 07:36:14",
+      "updated_at": "2025-08-20 07:36:14"
+    }
+  ],
+  "categories": [
+    "Condiments & Sauces",
+    "Dairy",
+    "Food & Beverages",
+    "Household"
+  ],
+  "export_date": "2025-08-20T14:38:17.483324"
+}

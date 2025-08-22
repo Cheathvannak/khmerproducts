@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Made in Cambodia</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Hamburger Menu Button -->
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+    
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    
+    <div class="container">
+        <!-- ======================= Sidebar ======================= -->
+        <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+            <!-- Search -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text" id="searchInput" placeholder="Search products..." class="search-input" aria-label="Search products">
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="navigation" aria-label="Primary">
+                <!-- Home -->
+                <button class="nav-btn home-btn active" data-category="Home" aria-current="page">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>Home</span>
+                    <span class="badge"></span>
+                </button>
+
+                <!-- Categories -->
+                <div class="category-section">
+                    <p class="category-label">Product Categories</p>
+
+                    <button class="nav-btn category-btn" data-category="All Products">
+                        <i class="fas fa-th-large" aria-hidden="true"></i>
+                        <span>All products</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Condiments & Sauces">
+                        <i class="fas fa-pepper-hot" aria-hidden="true"></i>
+                        <span>Condiments & Sauces</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Food & Beverages">
+                        <i class="fas fa-utensils" aria-hidden="true"></i>
+                        <span>Food & Beverages</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Household">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        <span>Household</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Dairy">
+                        <i class="fas fa-glass-whiskey" aria-hidden="true"></i>
+                        <span>Dairy</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Coffee">
+                        <i class="fas fa-coffee" aria-hidden="true"></i>
+                        <span>Coffee</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Gasoline Station">
+                        <i class="fas fa-gas-pump" aria-hidden="true"></i>
+                        <span>Gasoline Station</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Logistics">
+                        <i class="fas fa-bus" aria-hidden="true"></i>
+                        <span>Logistics</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Telecommunications">
+                        <i class="fas fa-phone" aria-hidden="true"></i>
+                        <span>Telecommunications</span>
+                    </button>
+
+                    <button class="nav-btn category-btn" data-category="Financial Services">
+                        <i class="fas fa-bank" aria-hidden="true"></i>
+                        <span>Financial Services</span>
+                    </button>
+
+                </div>
+            </nav>
+
+            <!-- Cart Summary Removed -->
+
+            <!-- Sign In Button Removed -->
+        </aside>
+
+        <!-- ======================= Main Content ======================= -->
+        <main class="main-content" aria-label="Main content">
+            <!-- Company Info Section -->
+            <section class="company-section" aria-label="Company section">
+                <div class="company-image-container">
+                    <img src="made-in-cambodia-poster.jpg" alt="Made in Cambodia" class="company-image">
+                </div>
+                
+
+            </section>
+        </main>
+
+        <!-- ======================= Products ======================= -->
+        <section class="products-section" aria-label="Product list">
+            <div class="products-header">
+                <h2 class="products-title" id="productsTitle">All Products</h2>
+            </div>
+            
+            <div class="products-container" id="productsContainer">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Made in Cambodia</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        // Check if user is logged in
+        if (!sessionStorage.getItem('adminLoggedIn')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- ======================= Sidebar ======================= -->
+        <aside class="sidebar" aria-label="Admin navigation">
+            <!-- Admin Header -->
+            <div class="admin-header">
+                <h1 class="admin-title">
+                    <i class="fas fa-cog" aria-hidden="true"></i>
+                    Admin Panel
+                </h1>
+                <p class="admin-subtitle">Manage Products & Manufacturers</p>
+                <button id="logoutBtn" class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="navigation" aria-label="Admin navigation">
+                <!-- Back to Main Site -->
+                <a href="index.html" class="nav-btn back-btn">
+                    <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                    <span>Back to Main Site</span>
+                </a>
+
+                <!-- Admin Sections -->
+                <div class="category-section">
+                    <p class="category-label">Admin Functions</p>
+
+                    <button class="nav-btn admin-nav-btn active" data-section="add-product">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        <span>Add Product</span>
+                    </button>
+
+                    <button class="nav-btn admin-nav-btn" data-section="add-manufacturer">
+                        <i class="fas fa-building" aria-hidden="true"></i>
+                        <span>Add Manufacturer</span>
+                    </button>
+
+                    <button class="nav-btn admin-nav-btn" data-section="manage-items">
+                        <i class="fas fa-list" aria-hidden="true"></i>
+                        <span>Manage Items</span>
+                    </button>
+
+                    <button class="nav-btn admin-nav-btn" data-section="manage-categories">
+                        <i class="fas fa-tags" aria-hidden="true"></i>
+                        <span>Manage Categories</span>
+                    </button>
+
+                    <button class="nav-btn admin-nav-btn" data-section="view-stats">
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                        <span>Database Stats</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Status Messages -->
+            <div class="status-container">
+                <div id="statusMessage" class="status-message hidden"></div>
+            </div>
+        </aside>
+
+        <!-- ======================= Main Content ======================= -->
+        <main class="main-content admin-main" aria-label="Admin main content">
+            
+            <!-- Add Product Section -->
+            <section id="add-product-section" class="admin-section active">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Add New Product
+                    </h2>
+                    <p class="section-description">Add a new product to the database</p>
+                </div>
+
+                <form id="addProductForm" class="admin-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="productName" class="form-label">Product Name *</label>
+                            <input type="text" id="productName" name="name" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productCategory" class="form-label">Category *</label>
+                            <select id="productCategory" name="category" class="form-select" required>
+                                <option value="">Select a category</option>
+                                <option value="Condiments & Sauces">Condiments & Sauces</option>
+                                <option value="Food & Beverages">Food & Beverages</option>
+                                <option value="Household">Household</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Coffee">Coffee</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productManufacturer" class="form-label">Manufacturer *</label>
+                            <select id="productManufacturer" name="manufacturer_id" class="form-select" required>
+                                <option value="">Select a manufacturer</option>
+                                <!-- Options will be loaded dynamically -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productImage" class="form-label">Product Image</label>
+                            <input type="file" id="productImage" name="image" class="form-input" accept="image/*">
+                            <small class="form-help">Upload product image (JPG, PNG, GIF)</small>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="productDescription" class="form-label">Description</label>
+                            <textarea id="productDescription" name="description" class="form-textarea" rows="3" placeholder="Optional product description"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            Add Product
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-undo" aria-hidden="true"></i>
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Add Manufacturer Section -->
+            <section id="add-manufacturer-section" class="admin-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-building" aria-hidden="true"></i>
+                        Add New Manufacturer
+                    </h2>
+                    <p class="section-description">Add a new manufacturer to the database</p>
+                </div>
+
+                <form id="addManufacturerForm" class="admin-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="manufacturerName" class="form-label">Manufacturer Name *</label>
+                            <input type="text" id="manufacturerName" name="name" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="manufacturerLogo" class="form-label">Manufacturer Logo</label>
+                            <input type="file" id="manufacturerLogo" name="logo" class="form-input" accept="image/*">
+                            <small class="form-help">Upload manufacturer logo (JPG, PNG, GIF)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="businessAddress" class="form-label">Business Address ទីតាំងអាជីវកម្ម</label>
+                            <input type="text" id="businessAddress" name="business_address" class="form-input" placeholder="Enter business address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="businessContact" class="form-label">Direct Business Contact លេខទំនាក់ទំនង</label>
+                            <input type="text" id="businessContact" name="business_contact" class="form-input" placeholder="Enter contact number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="businessSocialNetwork" class="form-label">Business Social Network ប្រពន័្ធបណ្តាញសង្គមរបស់អាជីវកម្ម</label>
+                            <input type="text" id="businessSocialNetwork" name="business_social_network" class="form-input" placeholder="Enter social media links">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-building" aria-hidden="true"></i>
+                            Add Manufacturer
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            <i class="fas fa-undo" aria-hidden="true"></i>
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Manage Items Section -->
+            <section id="manage-items-section" class="admin-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-list" aria-hidden="true"></i>
+                        Manage Items
+                    </h2>
+                    <p class="section-description">View and delete existing products and manufacturers</p>
+                </div>
+
+                <div class="manage-container">
+                    <!-- Products Management -->
+                    <div class="manage-section">
+                        <h3 class="manage-title">
+                            <i class="fas fa-box" aria-hidden="true"></i>
+                            Products
+                        </h3>
+                        <div class="items-list" id="productsList">
+                            <!-- Products will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Manufacturers Management -->
+                    <div class="manage-section">
+                        <h3 class="manage-title">
+                            <i class="fas fa-building" aria-hidden="true"></i>
+                            Manufacturers
+                        </h3>
+                        <div class="items-list" id="manufacturersList">
+                            <!-- Manufacturers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Categories Section -->
+            <section id="manage-categories-section" class="admin-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-tags" aria-hidden="true"></i>
+                        Manage Categories
+                    </h2>
+                    <p class="section-description">Add new categories and manage existing ones</p>
+                </div>
+
+                <div class="manage-content">
+                    <!-- Add Category Form -->
+                    <div class="manage-section">
+                        <h3 class="manage-title">
+                            <i class="fas fa-plus" aria-hidden="true"></i>
+                            Add New Category
+                        </h3>
+                        <form id="addCategoryForm" class="admin-form">
+                            <div class="form-group">
+                                <label for="categoryName">Category Name:</label>
+                                <input type="text" id="categoryName" name="categoryName" required 
+                                       placeholder="Enter category name (e.g., Electronics, Clothing)">
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
+                                Add Category
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Existing Categories List -->
+                    <div class="manage-section">
+                        <h3 class="manage-title">
+                            <i class="fas fa-list" aria-hidden="true"></i>
+                            Existing Categories
+                        </h3>
+                        <div class="items-list" id="categoriesList">
+                            <!-- Categories will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Database Stats Section -->
+            <section id="view-stats-section" class="admin-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                        Database Statistics
+                    </h2>
+                    <p class="section-description">Overview of your database contents</p>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-box" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number" id="totalProducts">-</h3>
+                                <p class="stat-label">Total Products</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-building" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number" id="totalManufacturers">-</h3>
+                                <p class="stat-label">Total Manufacturers</p>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tags" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3 class="stat-number" id="totalCategories">-</h3>
+                                <p class="stat-label">Total Categories</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-breakdown">
+                        <h3 class="breakdown-title">Products by Category</h3>
+                        <div id="categoryBreakdown" class="breakdown-list">
+                            <!-- Category breakdown will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Edit Product
+                </h2>
+                <button class="modal-close" onclick="closeEditModal()">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <form id="editProductForm" class="admin-form">
+                <input type="hidden" id="editProductId" name="id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editProductName" class="form-label">Product Name *</label>
+                        <input type="text" id="editProductName" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductCategory" class="form-label">Category *</label>
+                        <select id="editProductCategory" name="category" class="form-input" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductManufacturer" class="form-label">Manufacturer *</label>
+                        <select id="editProductManufacturer" name="manufacturer_id" class="form-input" required>
+                            <option value="">Select Manufacturer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductDescription" class="form-label">Description</label>
+                        <textarea id="editProductDescription" name="description" class="form-input" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductImage" class="form-label">Product Image</label>
+                        <input type="file" id="editProductImage" name="image" class="form-input" accept="image/*">
+                        <div id="currentImagePreview" class="image-preview"></div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save" aria-hidden="true"></i>
+                        Update Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Manufacturer Modal -->
+    <div id="editManufacturerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Edit Manufacturer
+                </h2>
+                <button class="modal-close" onclick="closeEditManufacturerModal()">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+            <form id="editManufacturerForm" class="admin-form" enctype="multipart/form-data">
+                <input type="hidden" id="editManufacturerId" name="id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editManufacturerName" class="form-label">Manufacturer Name * / ឈ្មោះក្រុមហ៊ុន *</label>
+                        <input type="text" id="editManufacturerName" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerDescription" class="form-label">Description / ការពិពណ៌នា</label>
+                        <textarea id="editManufacturerDescription" name="description" class="form-input" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerBusinessName" class="form-label">Business Name / ឈ្មោះអាជីវកម្ម</label>
+                        <input type="text" id="editManufacturerBusinessName" name="business_name" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerBusinessAddress" class="form-label">Business Address / អាសយដ្ឋានអាជីវកម្ម</label>
+                        <textarea id="editManufacturerBusinessAddress" name="business_address" class="form-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerBusinessContact" class="form-label">Business Contact / ទំនាក់ទំនងអាជីវកម្ម</label>
+                        <input type="text" id="editManufacturerBusinessContact" name="business_contact" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerBusinessSocial" class="form-label">Business Social Network / បណ្តាញសង្គមអាជីវកម្ម</label>
+                        <input type="text" id="editManufacturerBusinessSocial" name="business_social_network" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerLogo" class="form-label">Manufacturer Logo / រូបសញ្ញាក្រុមហ៊ុន</label>
+                        <div id="currentLogoPreview" class="current-logo-preview"></div>
+                        <input type="file" id="editManufacturerLogo" name="logo" class="form-input" accept="image/*">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeEditManufacturerModal()">Cancel</button>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-save" aria-hidden="true"></i>
+                        Update Manufacturer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="admin.js"></script>
+</body>
+</html>
