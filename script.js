@@ -76,7 +76,7 @@ async function loadAllData() {
 // ---------------------------
 // Global state
 // ---------------------------
-let currentCategory = 'All Products';
+let currentCategory = 'Home';
 let searchTerm = '';
 let currentManufacturer = null; // When set, filter by this manufacturer
 
@@ -162,6 +162,28 @@ function selectCategory(category) {
         activeButton.classList.add('active');
     }
     
+    // Mobile-specific behavior for category changes
+    if (window.innerWidth <= 768) {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const productsSection = document.querySelector('.products-section');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (category === 'Home') {
+            // Reset to landing page state on mobile
+            if (hamburgerBtn) hamburgerBtn.classList.remove('show-menu');
+            if (productsSection) productsSection.classList.remove('show-products');
+            if (mainContent) mainContent.classList.remove('with-hamburger');
+        } else {
+            // Show hamburger and products for other categories
+            if (hamburgerBtn) hamburgerBtn.classList.add('show-menu');
+            if (productsSection) productsSection.classList.add('show-products');
+            if (mainContent) mainContent.classList.add('with-hamburger');
+        }
+        
+        // Close mobile menu when changing categories
+        closeMobileMenu();
+    }
+    
     // Show/hide search container based on category
     const searchContainer = document.getElementById('searchContainer');
     if (searchContainer) {
@@ -219,13 +241,28 @@ function selectManufacturer(manufacturer) {
     
     renderProducts();
     
-    // Close mobile menu if open (for better UX on mobile)
+    // Mobile-specific behavior
     if (window.innerWidth <= 768) {
+        // Show hamburger menu and products section on mobile
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const productsSection = document.querySelector('.products-section');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (hamburgerBtn) {
+            hamburgerBtn.classList.add('show-menu');
+        }
+        if (productsSection) {
+            productsSection.classList.add('show-products');
+        }
+        if (mainContent) {
+            mainContent.classList.add('with-hamburger');
+        }
+        
+        // Close mobile menu if open
         closeMobileMenu();
         
-        // Scroll to products section after a short delay to ensure menu closes first
+        // Scroll to products section after a short delay
         setTimeout(() => {
-            const productsSection = document.querySelector('.products-section');
             if (productsSection) {
                 productsSection.scrollIntoView({ 
                     behavior: 'smooth', 
@@ -352,8 +389,60 @@ function renderProducts() {
         }
     }
     
-    // Home page: show About Us content and partner logos
+    // Home page: show About Us content and partner logos (desktop) or manufacturers (mobile)
     if (currentCategory === 'Home' && !currentManufacturer) {
+        // On mobile, show manufacturers in the main content area
+        if (window.innerWidth <= 768) {
+            // Show manufacturers in company section for mobile
+            const companySection = document.querySelector('.company-section');
+            if (companySection) {
+                // Get all manufacturers for Home page
+                const uniqueManufacturers = [...new Set(sampleProducts
+                    .filter(product => product.manufacturer)
+                    .map(product => product.manufacturer))]
+                    .sort();
+                
+                companySection.innerHTML = `
+                    <div class="manufacturers-section">
+                        <div class="manufacturers-content">
+                            <div class="manufacturers-grid">
+                                ${uniqueManufacturers.map(manufacturer => {
+                                    const manufacturerData = manufacturers.find(m => m.name === manufacturer);
+                                    const isSelected = manufacturer === selectedManufacturer;
+                                    return `
+                                        <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
+                                            ${manufacturerData && manufacturerData.logoPath ? 
+                                                `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">
+                                                <div class="manufacturer-line"></div>` : 
+                                                `<div class="manufacturer-name">${manufacturer}</div>`
+                                            }
+                                            <div class="manufacturer-info">
+                                                <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
+                                                ${manufacturerData && manufacturerData.businessAddress ? 
+                                                    `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
+                                                }
+                                                ${manufacturerData && manufacturerData.businessContact ? 
+                                                    `<p class="manufacturer-contact"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
+                                                }
+                                                ${manufacturerData && manufacturerData.businessWebsite ? 
+                                                    `<p class="manufacturer-social"><i class="fa fa-globe" aria-hidden="true"></i> <strong>Website:</strong> <a href="${manufacturerData.businessWebsite}" target="_blank" rel="noopener noreferrer">${manufacturerData.businessWebsite}</a></p>` : ''
+                                                }
+                                                ${manufacturerData && manufacturerData.description ? 
+                                                    `<p class="manufacturer-description">${manufacturerData.description}</p>` : ''
+                                                }
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            return;
+        }
+        
+        // Desktop: show About Us logos
         const aboutUsSection = document.createElement('div');
         aboutUsSection.className = 'about-us-section';
         
@@ -671,7 +760,19 @@ function initializeMobileMenu() {
     // Handle window resize
     window.addEventListener('resize', function() {
         if (window.innerWidth > 768) {
+            // Reset mobile-specific classes when switching to desktop
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const productsSection = document.querySelector('.products-section');
+            const mainContent = document.querySelector('.main-content');
+            
             closeMobileMenu();
+            
+            if (hamburgerBtn) hamburgerBtn.classList.remove('show-menu');
+            if (productsSection) productsSection.classList.remove('show-products');
+            if (mainContent) mainContent.classList.remove('with-hamburger');
+        } else {
+            // Apply mobile behavior when switching to mobile
+            handleMobileLayout();
         }
     });
 }
@@ -716,8 +817,30 @@ function closeMobileMenu() {
     document.body.style.overflow = '';
 }
 
+// Handle mobile layout based on current state
+function handleMobileLayout() {
+    if (window.innerWidth <= 768) {
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const productsSection = document.querySelector('.products-section');
+        const mainContent = document.querySelector('.main-content');
+        
+        if (currentCategory === 'Home' && !currentManufacturer) {
+            // Landing page state: hide hamburger and products
+            if (hamburgerBtn) hamburgerBtn.classList.remove('show-menu');
+            if (productsSection) productsSection.classList.remove('show-products');
+            if (mainContent) mainContent.classList.remove('with-hamburger');
+        } else {
+            // Show hamburger and products when category/manufacturer is selected
+            if (hamburgerBtn) hamburgerBtn.classList.add('show-menu');
+            if (productsSection) productsSection.classList.add('show-products');
+            if (mainContent) mainContent.classList.add('with-hamburger');
+        }
+    }
+}
+
 // Initialize mobile menu when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeMobileMenu();
+    handleMobileLayout();
 });
 

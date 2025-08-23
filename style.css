@@ -215,8 +215,8 @@ body {
 
 /* Home logo styling */
 .home-logo {
-    width: 320px;
-    height: 320px;
+    width: 280px;
+    height: 280px;
     object-fit: contain;
 }
 
@@ -605,7 +605,7 @@ body {
 
 .modal-content {
     position: relative;
-    max-width: 600px;
+    max-width: 400px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
@@ -707,43 +707,7 @@ body {
     border: 1px solid var(--border-color);
 }
 
-/* Modal responsive styles */
-@media (max-width: 768px) {
-    .modal-content {
-        width: 95%;
-        max-height: 95vh;
-        overflow-x: hidden;
-    }
-    
-    .modal-product-header {
-        padding: 1rem;
-    }
-    
-    .modal-product-image {
-        min-height: 250px;
-    }
-    
-    .modal-product-name {
-        font-size: 1.125rem;
-    }
-    
-    .modal-product-description {
-        font-size: 0.875rem;
-    }
-    
-    .modal-close {
-        top: -5px;
-        right: -5px;
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-        background: rgba(220, 38, 38, 0.3);
-    }
-    
-    .modal-close:hover {
-        background: #dc2626;
-    }
-}
+/* Modal responsive styles moved to mobile-styles.css */
 
 .no-products {
     text-align: center;
@@ -948,123 +912,11 @@ body {
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-    .about-us-section {
-        padding: 20px;
-    }
-    
-    .manufacturers-section {
-        padding: 20px;
-    }
-    
-    .manufacturers-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .manufacturer-card {
-        min-height: 150px;
-        padding: 20px;
-    }
-    
-    .logos-container {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-    
-    .logo-card {
-        padding: 20px;
-        min-height: 120px;
-        margin: 0 auto;
-    }
-    
-    .logo-image {
-        max-height: 80px;
-    }
-}
+/* About us and manufacturers mobile styles moved to mobile-styles.css */
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .container {
-        flex-direction: column;
-        height: auto;
-        min-height: 100vh;
-    }
-    
-    .sidebar {
-        width: 100%;
-        order: 2;
-    }
-    
-    .main-content {
-        order: 1;
-    }
-    
-    .products-section {
-        width: 100%;
-        order: 3;
-        border-left: none;
-        border-top: 1px solid var(--border-color);
-    }
-    
-    .company-section {
-        flex-direction: row;
-        height: auto;
-        min-height: 300px;
-    }
-}
+/* Tablet responsive styles moved to mobile-styles.css */
 
-/* Mobile Hamburger Menu Styles */
-@media (max-width: 768px) {
-    .hamburger-btn {
-        display: flex;
-    }
-    
-    .mobile-overlay {
-        display: none;
-    }
-    
-    .mobile-overlay.active {
-        display: block;
-    }
-    
-    .container {
-        position: relative;
-    }
-    
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: -100%;
-        width: 280px;
-        height: 100vh;
-        z-index: 1000;
-        order: unset;
-        transition: left 0.3s ease;
-        box-shadow: var(--card-shadow-hover);
-        padding-top: 5rem; /* Add top padding to avoid hamburger button collision */
-    }
-    
-    .sidebar.active {
-        left: 0;
-    }
-    
-    .main-content {
-        width: 100%;
-        padding: 5rem 1rem 1rem 1rem; /* Increased top padding for hamburger button */
-        order: 1;
-    }
-    
-    .products-section {
-        padding: 1rem;
-        order: 2;
-    }
-    
-    .company-section {
-        flex-direction: column;
-    }
-}
+/* Mobile hamburger menu and layout styles moved to mobile-styles.css */
 
 /* Clear filter button */
 .clear-filter-btn {
