@@ -788,10 +788,10 @@ body {
 }
 
 .manufacturers-content h3 {
-    font-size: 2rem;
+    font-size: 1.2rem;
     color: var(--text-color);
-    margin-bottom: 30px;
     font-weight: 600;
+    line-height: 1.5rem;
 }
 
 .manufacturers-grid {
