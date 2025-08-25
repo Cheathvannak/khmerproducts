@@ -321,7 +321,7 @@ body {
    ========================================================= */
 .main-content {
     flex: 1;
-    padding: 1.5rem;
+    padding: 0.5rem;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -442,7 +442,7 @@ body {
 /* Products Section */
 .products-section {
     width: 530px;
-    padding: 1.5rem;
+    padding: 0.5rem;
     border-left: 1px solid var(--border-color);
     background-color: var(--bg-primary);
     overflow-y: auto;
@@ -773,7 +773,7 @@ body {
 /* Manufacturers section styling */
 .manufacturers-section {
     padding: -50px;
-    width: 420px;
+    width: 444px;
     text-align: center;
     overflow-y: auto;
     height: 100%;
