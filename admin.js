@@ -1,9 +1,9 @@
 // ======================= Admin Panel JavaScript ======================= //
 
 // API Configuration
-// Use relative URL for production deployment, fallback to localhost for development
+// Use localhost for development, with fallback detection
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-    ? 'http://127.0.0.1:5000/api' 
+    ? 'http://127.0.0.1:5001/api' 
     : '/api';
 
 // DOM Elements

@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Database configuration
-# Use absolute path for production deployment
+# Use absolute path for local development
 DATABASE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'khmer_products.db')
 
 # File upload configuration
@@ -659,5 +659,5 @@ def login_admin():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Main execution block removed for production deployment
-# Use app.py or gunicorn to run the application
+# Main execution block removed for modular design
+# Use app.py to run the application locally
