@@ -106,15 +106,23 @@
     }
 
     .manufacturer-card {
-        padding: 15px;
+        padding: 0;
         margin-bottom: 10px;
+        overflow: hidden;
     }
 
     .manufacturer-banner {
         width: 100%;
-        margin: -15px -15px 10px -15px;
+        margin: 0;
         border-radius: 10px 10px 0 0;
         overflow: hidden;
+    }
+
+    .manufacturer-content {
+        padding: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
     }
 
     .manufacturer-banner-image {

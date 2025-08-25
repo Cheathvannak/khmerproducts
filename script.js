@@ -413,10 +413,11 @@ function renderProducts() {
                                     return `
                                         <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
                                             ${manufacturerData && manufacturerData.bannerPath ? 
-                                                `<div class="manufacturer-banner">
-                                                    <img src="${manufacturerData.bannerPath}" alt="${manufacturer} Banner" class="manufacturer-banner-image">
-                                                </div>` : ''
-                                            }
+                                            `<div class="manufacturer-banner">
+                                                <img src="${manufacturerData.bannerPath}" alt="${manufacturer} Banner" class="manufacturer-banner-image">
+                                            </div>` : ''
+                                        }
+                                        <div class="manufacturer-content">
                                             <div class="manufacturer-line"></div>
                                             <div class="manufacturer-header">
                                                 ${manufacturerData && manufacturerData.logoPath ? 
@@ -438,6 +439,8 @@ function renderProducts() {
                                                 ${manufacturerData && manufacturerData.description ? 
                                                     `<p class="manufacturer-description">${manufacturerData.description}</p>` : ''
                                                 }
+                                            </div>
+                                        </div>
                                             </div>
                                         </div>
                                     `;
@@ -503,24 +506,26 @@ function renderProducts() {
                                                 <img src="${manufacturerData.bannerPath}" alt="${manufacturer} Banner" class="manufacturer-banner-image">
                                             </div>` : ''
                                         }
-                                        <div class="manufacturer-line"></div>
-                                        <div class="manufacturer-header">
-                                            ${manufacturerData && manufacturerData.logoPath ? 
-                                                `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo-inline">` : 
-                                                ''
-                                            }
-                                            <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
-                                        </div>
-                                        <div class="manufacturer-info">
-                                            ${manufacturerData && manufacturerData.businessAddress ? 
-                                                `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
-                                            }
-                                            ${manufacturerData && manufacturerData.businessContact ? 
-                                                `<p class="manufacturer-contact"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
-                                            }
-                                            ${manufacturerData && manufacturerData.businessSocialNetwork ? 
-                                                `<p class="manufacturer-social"><i class="fa-brands fa-facebook" aria-hidden="true"></i> <strong>Social Network:</strong> <a href="${manufacturerData.businessSocialNetwork.startsWith('http') ? manufacturerData.businessSocialNetwork : 'https://' + manufacturerData.businessSocialNetwork}" target="_blank" rel="noopener noreferrer">${manufacturer}</a></p>` : ''
-                                            }
+                                        <div class="manufacturer-content">
+                                            <div class="manufacturer-line"></div>
+                                            <div class="manufacturer-header">
+                                                ${manufacturerData && manufacturerData.logoPath ? 
+                                                    `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo-inline">` : 
+                                                    ''
+                                                }
+                                                <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
+                                            </div>
+                                            <div class="manufacturer-info">
+                                                ${manufacturerData && manufacturerData.businessAddress ? 
+                                                    `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
+                                                }
+                                                ${manufacturerData && manufacturerData.businessContact ? 
+                                                    `<p class="manufacturer-contact"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact:</strong> ${manufacturerData.businessContact}</p>` : ''
+                                                }
+                                                ${manufacturerData && manufacturerData.businessSocialNetwork ? 
+                                                    `<p class="manufacturer-social"><i class="fa-brands fa-facebook" aria-hidden="true"></i> <strong>Social Network:</strong> <a href="${manufacturerData.businessSocialNetwork.startsWith('http') ? manufacturerData.businessSocialNetwork : 'https://' + manufacturerData.businessSocialNetwork}" target="_blank" rel="noopener noreferrer">${manufacturer}</a></p>` : ''
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                 `;

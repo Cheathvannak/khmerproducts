@@ -805,7 +805,7 @@ body {
 .manufacturer-card {
     background: white;
     border-radius: 10px;
-    padding: 9px;
+    padding: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     text-align: left;
@@ -817,6 +817,7 @@ body {
     width: 100%;
     max-width: 100%;
     border: 1px solid var(--border-color);
+    overflow: hidden;
 }
 
 .manufacturer-card:hover {
@@ -839,9 +840,16 @@ body {
 
 .manufacturer-banner {
     width: 100%;
-    /* margin: 0px; */
     border-radius: 10px 10px 0 0;
     overflow: hidden;
+    margin: 0;
+}
+
+.manufacturer-content {
+    padding: 9px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .manufacturer-banner-image {
@@ -876,13 +884,7 @@ body {
     flex-shrink: 0;
 }
 
-.manufacturer-line {
-    width: 100%;
-    height: 0.5px;
-    background: grey;
-    border-radius: 2px;
-    margin: 0px auto 8px auto;
-}
+
 
 .manufacturer-name {
     font-size: 1.5rem;
