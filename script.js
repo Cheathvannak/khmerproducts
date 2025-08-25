@@ -411,13 +411,15 @@ function renderProducts() {
                                     const isSelected = manufacturer === selectedManufacturer;
                                     return `
                                         <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
-                                            ${manufacturerData && manufacturerData.logoPath ? 
-                                                `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">
-                                                <div class="manufacturer-line"></div>` : 
-                                                `<div class="manufacturer-name">${manufacturer}</div>`
-                                            }
-                                            <div class="manufacturer-info">
+                                            <div class="manufacturer-line"></div>
+                                            <div class="manufacturer-header">
+                                                ${manufacturerData && manufacturerData.logoPath ? 
+                                                    `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo-inline">` : 
+                                                    ''
+                                                }
                                                 <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
+                                            </div>
+                                            <div class="manufacturer-info">
                                                 ${manufacturerData && manufacturerData.businessAddress ? 
                                                     `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
                                                 }
@@ -490,13 +492,15 @@ function renderProducts() {
                                 const isSelected = manufacturer === selectedManufacturer;
                                 return `
                                     <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
-                                        ${manufacturerData && manufacturerData.logoPath ? 
-                                            `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo">
-                                            <div class="manufacturer-line"></div>` : 
-                                            `<div class="manufacturer-name">${manufacturer}</div>`
-                                        }
-                                        <div class="manufacturer-info">
+                                        <div class="manufacturer-line"></div>
+                                        <div class="manufacturer-header">
+                                            ${manufacturerData && manufacturerData.logoPath ? 
+                                                `<img src="${manufacturerData.logoPath}" alt="${manufacturer}" class="manufacturer-logo-inline">` : 
+                                                ''
+                                            }
                                             <h3 class="manufacturer-title">${manufacturerData && manufacturerData.businessName ? manufacturerData.businessName : manufacturer}</h3>
+                                        </div>
+                                        <div class="manufacturer-info">
                                             ${manufacturerData && manufacturerData.businessAddress ? 
                                                 `<p class="manufacturer-address"><i class="fa fa-home" aria-hidden="true"></i> <strong>Address:</strong> ${manufacturerData.businessAddress}</p>` : ''
                                             }
