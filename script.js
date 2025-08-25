@@ -209,7 +209,7 @@ function selectCategory(category) {
             productsContainer.style.gap = '1rem';
         } else {
             // Other pages: wider products section, 2-column grid
-            productsSection.style.width = '600px';
+            productsSection.style.width = '530px';
             productsContainer.style.display = 'grid';
             productsContainer.style.flexDirection = '';
             productsContainer.style.gridTemplateColumns = '1fr 1fr';
