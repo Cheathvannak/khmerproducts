@@ -112,7 +112,7 @@ body {
 
 /* Sidebar Styles */
 .sidebar {
-    width: 320px;
+    width: 275px;
     background-color: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
     padding: 1.5rem;
@@ -773,7 +773,7 @@ body {
 /* Manufacturers section styling */
 .manufacturers-section {
     padding: -50px;
-    width: 444px;
+    width: 490px;
     text-align: center;
     overflow-y: auto;
     height: 100%;
