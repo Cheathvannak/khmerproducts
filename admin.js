@@ -18,6 +18,7 @@ const statusMessage = document.getElementById('statusMessage');
 // Initialize Admin Panel
 document.addEventListener('DOMContentLoaded', function() {
     initializeAdminPanel();
+    setupSearchListeners();
 });
 
 // ======================= Initialization ======================= //
@@ -280,6 +281,7 @@ async function handleAddManufacturer(event) {
     
     const formData = new FormData(event.target);
     const logoFile = formData.get('logo');
+    const bannerFile = formData.get('banner');
     
     // Validate required fields
     if (!formData.get('name')) {
@@ -296,10 +298,17 @@ async function handleAddManufacturer(event) {
             logoPath = await uploadManufacturerLogo(logoFile, formData.get('name'));
         }
         
+        // Handle banner upload if provided
+        let bannerPath = '';
+        if (bannerFile && bannerFile.size > 0) {
+            bannerPath = await uploadManufacturerBanner(bannerFile, formData.get('name'));
+        }
+        
         const manufacturerData = {
             name: formData.get('name'),
             description: formData.get('description') || '',
             logo_path: logoPath,
+            banner_path: bannerPath,
             business_name: formData.get('business_name') || '',
             business_address: formData.get('business_address') || '',
             business_contact: formData.get('business_contact') || '',
@@ -384,6 +393,30 @@ async function uploadManufacturerLogo(logoFile, manufacturerName) {
     } catch (error) {
         console.error('Error uploading manufacturer logo:', error);
         throw new Error('Failed to upload manufacturer logo: ' + error.message);
+    }
+}
+
+async function uploadManufacturerBanner(bannerFile, manufacturerName) {
+    try {
+        const formData = new FormData();
+        formData.append('banner', bannerFile);
+        formData.append('manufacturer_name', manufacturerName);
+        
+        const response = await fetch(`${API_BASE_URL}/upload/manufacturer-banner`, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Upload failed');
+        }
+        
+        const result = await response.json();
+        return result.file_path;
+    } catch (error) {
+        console.error('Error uploading manufacturer banner:', error);
+        throw new Error('Failed to upload manufacturer banner: ' + error.message);
     }
 }
 
@@ -498,7 +531,7 @@ async function loadProductsForManagement() {
                     </div>
                 </div>
                 <div class="item-actions">
-                    <button class="edit-btn" onclick="editProduct(${product.id})" 
+                    <button class="edit-btn" onclick="editProduct(${product.id}, event)" 
                             title="Edit ${product.name}">
                         <i class="fas fa-edit" aria-hidden="true"></i>
                         Edit
@@ -541,7 +574,7 @@ async function loadManufacturersForManagement() {
                     </div>
                 </div>
                 <div class="item-actions">
-                    <button class="edit-btn" onclick="editManufacturer(${manufacturer.id})" 
+                    <button class="edit-btn" onclick="editManufacturer(${manufacturer.id}, event)" 
                             title="Edit ${manufacturer.name}">
                         <i class="fas fa-edit" aria-hidden="true"></i>
                         Edit
@@ -623,6 +656,59 @@ async function deleteManufacturer(manufacturerId, manufacturerName) {
 function loadManageItemsData() {
     loadProductsForManagement();
     loadManufacturersForManagement();
+}
+
+// Search functionality for products
+function filterProducts(searchTerm) {
+    const productCards = document.querySelectorAll('#productsList .item-card');
+    const searchLower = searchTerm.toLowerCase();
+    
+    productCards.forEach(card => {
+        const productName = card.querySelector('.item-name').textContent.toLowerCase();
+        const productDetails = card.querySelector('.item-details').textContent.toLowerCase();
+        
+        if (productName.includes(searchLower) || productDetails.includes(searchLower)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Search functionality for manufacturers
+function filterManufacturers(searchTerm) {
+    const manufacturerCards = document.querySelectorAll('#manufacturersList .item-card');
+    const searchLower = searchTerm.toLowerCase();
+    
+    manufacturerCards.forEach(card => {
+        const manufacturerName = card.querySelector('.item-name').textContent.toLowerCase();
+        const manufacturerDetails = card.querySelector('.item-details') ? 
+            card.querySelector('.item-details').textContent.toLowerCase() : '';
+        
+        if (manufacturerName.includes(searchLower) || manufacturerDetails.includes(searchLower)) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Setup search event listeners
+function setupSearchListeners() {
+    const productSearch = document.getElementById('productSearch');
+    const manufacturerSearch = document.getElementById('manufacturerSearch');
+    
+    if (productSearch) {
+        productSearch.addEventListener('input', function(e) {
+            filterProducts(e.target.value);
+        });
+    }
+    
+    if (manufacturerSearch) {
+        manufacturerSearch.addEventListener('input', function(e) {
+            filterManufacturers(e.target.value);
+        });
+    }
 }
 
 // ======================= Category Management Functions ======================= //
@@ -747,7 +833,12 @@ function logout() {
 
 // ======================= Edit Product Functions ======================= //
 
-async function editProduct(productId) {
+async function editProduct(productId, event) {
+    // Prevent event propagation to avoid immediate modal closure
+    if (event) {
+        event.stopPropagation();
+    }
+    
     try {
         // Fetch product details
         const product = await fetchFromAPI(`/products/${productId}`);
@@ -778,8 +869,15 @@ async function editProduct(productId) {
         document.getElementById('editProductCategory').value = product.category;
         document.getElementById('editProductManufacturer').value = product.manufacturer_id;
         
-        // Show the modal
-        document.getElementById('editProductModal').classList.add('show');
+        // Show the modal with a delay to ensure event handling is complete
+        setTimeout(() => {
+            const modal = document.getElementById('editProductModal');
+            if (modal) {
+                modal.classList.add('show');
+                // Force a reflow to ensure the modal is properly displayed
+                modal.offsetHeight;
+            }
+        }, 50);
         
     } catch (error) {
         console.error('Error loading product for edit:', error);
@@ -878,8 +976,23 @@ document.addEventListener('click', function(event) {
     }
 });
 
+// Prevent modal content clicks from bubbling up
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContent = document.querySelector('#editProductModal .modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    }
+});
+
 // Edit Manufacturer Functions
-async function editManufacturer(manufacturerId) {
+async function editManufacturer(manufacturerId, event) {
+    // Prevent event propagation to avoid immediate modal closure
+    if (event) {
+        event.stopPropagation();
+    }
+    
     try {
         // Fetch manufacturer details
         const manufacturer = await fetchFromAPI(`/manufacturers/${manufacturerId}`);
@@ -904,8 +1017,26 @@ async function editManufacturer(manufacturerId) {
             logoPreview.innerHTML = '<p>No current logo</p>';
         }
         
-        // Show the modal
-        document.getElementById('editManufacturerModal').classList.add('show');
+        // Show current banner if exists
+        const bannerPreview = document.getElementById('currentBannerPreview');
+        if (manufacturer.banner_path) {
+            bannerPreview.innerHTML = `
+                <p>Current Banner:</p>
+                <img src="${manufacturer.banner_path}" alt="${manufacturer.name} Banner" />
+            `;
+        } else {
+            bannerPreview.innerHTML = '<p>No current banner</p>';
+        }
+        
+        // Show the modal with a delay to ensure event handling is complete
+        setTimeout(() => {
+            const modal = document.getElementById('editManufacturerModal');
+            if (modal) {
+                modal.classList.add('show');
+                // Force a reflow to ensure the modal is properly displayed
+                modal.offsetHeight;
+            }
+        }, 50);
         
     } catch (error) {
         console.error('Error loading manufacturer for edit:', error);
@@ -917,6 +1048,7 @@ function closeEditManufacturerModal() {
     document.getElementById('editManufacturerModal').classList.remove('show');
     document.getElementById('editManufacturerForm').reset();
     document.getElementById('currentLogoPreview').innerHTML = '';
+    document.getElementById('currentBannerPreview').innerHTML = '';
 }
 
 async function handleEditManufacturer(event) {
@@ -961,6 +1093,16 @@ document.addEventListener('click', function(event) {
     const modal = document.getElementById('editManufacturerModal');
     if (event.target === modal) {
         closeEditManufacturerModal();
+    }
+});
+
+// Prevent manufacturer modal content clicks from bubbling up
+document.addEventListener('DOMContentLoaded', function() {
+    const modalContent = document.querySelector('#editManufacturerModal .modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
     }
 });
 

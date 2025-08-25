@@ -167,6 +167,12 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="manufacturerBanner" class="form-label">Manufacturer Banner</label>
+                            <input type="file" id="manufacturerBanner" name="banner" class="form-input" accept="image/*">
+                            <small class="form-help">Upload manufacturer banner image (JPG, PNG, GIF) - displayed above product cards</small>
+                        </div>
+
+                        <div class="form-group">
                             <label for="businessAddress" class="form-label">Business Address ទីតាំងអាជីវកម្ម</label>
                             <input type="text" id="businessAddress" name="business_address" class="form-input" placeholder="Enter business address">
                         </div>
@@ -212,6 +218,10 @@
                             <i class="fas fa-box" aria-hidden="true"></i>
                             Products
                         </h3>
+                        <div class="search-container">
+                            <input type="text" id="productSearch" class="search-input" >
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        </div>
                         <div class="items-list" id="productsList">
                             <!-- Products will be loaded here -->
                         </div>
@@ -223,6 +233,10 @@
                             <i class="fas fa-building" aria-hidden="true"></i>
                             Manufacturers
                         </h3>
+                        <div class="search-container">
+                            <input type="text" id="manufacturerSearch" class="search-input">
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                        </div>
                         <div class="items-list" id="manufacturersList">
                             <!-- Manufacturers will be loaded here -->
                         </div>
@@ -422,6 +436,11 @@
                         <label for="editManufacturerLogo" class="form-label">Manufacturer Logo / រូបសញ្ញាក្រុមហ៊ុន</label>
                         <div id="currentLogoPreview" class="current-logo-preview"></div>
                         <input type="file" id="editManufacturerLogo" name="logo" class="form-input" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="editManufacturerBanner" class="form-label">Manufacturer Banner / បដាក្រុមហ៊ុន</label>
+                        <div id="currentBannerPreview" class="current-banner-preview"></div>
+                        <input type="file" id="editManufacturerBanner" name="banner" class="form-input" accept="image/*">
                     </div>
                 </div>
                 <div class="form-actions">

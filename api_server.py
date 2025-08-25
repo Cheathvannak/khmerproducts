@@ -89,6 +89,7 @@ def api_info():
             'POST /api/manufacturers': 'Add new manufacturer',
             'POST /api/upload/product-image': 'Upload product image file',
             'POST /api/upload/manufacturer-logo': 'Upload manufacturer logo file',
+            'POST /api/upload/manufacturer-banner': 'Upload manufacturer banner file',
             'DELETE /api/products/<id>': 'Delete product by ID',
             'DELETE /api/manufacturers/<id>': 'Delete manufacturer by ID (if no products reference it)'
         }
@@ -390,6 +391,45 @@ def upload_manufacturer_logo():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/api/upload/manufacturer-banner', methods=['POST'])
+def upload_manufacturer_banner():
+    """Upload manufacturer banner file"""
+    try:
+        if 'banner' not in request.files:
+            return jsonify({'error': 'No banner file provided'}), 400
+            
+        file = request.files['banner']
+        manufacturer_name = request.form.get('manufacturer_name', 'manufacturer')
+        
+        if file.filename == '':
+            return jsonify({'error': 'No file selected'}), 400
+            
+        if file and allowed_file(file.filename):
+            # Create safe filename
+            file_extension = file.filename.rsplit('.', 1)[1].lower()
+            safe_manufacturer_name = ''.join(c if c.isalnum() else '_' for c in manufacturer_name.lower())
+            filename = f"{safe_manufacturer_name}_banner_{int(datetime.now().timestamp())}.{file_extension}"
+            
+            # Ensure Banners directory exists
+            banners_dir = os.path.join(app.config['UPLOAD_FOLDER'], 'Banners')
+            os.makedirs(banners_dir, exist_ok=True)
+            
+            # Save file
+            file_path = os.path.join(banners_dir, filename)
+            file.save(file_path)
+            
+            # Return relative path for database storage
+            relative_path = f"Banners/{filename}"
+            return jsonify({
+                'message': 'Banner uploaded successfully',
+                'file_path': relative_path
+            }), 201
+        else:
+            return jsonify({'error': 'Invalid file type. Allowed: PNG, JPG, JPEG, GIF, WEBP'}), 400
+            
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/api/products', methods=['POST'])
 def add_product():
     """Add new product"""
@@ -433,8 +473,8 @@ def add_manufacturer():
         conn = get_db_connection()
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO manufacturers (name, description, logo_path, business_name, business_address, business_contact, business_social_network)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO manufacturers (name, description, logo_path, business_name, business_address, business_contact, business_social_network, banner_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             data['name'],
             data.get('description', ''),
@@ -442,7 +482,8 @@ def add_manufacturer():
             data.get('business_name', ''),
             data.get('business_address', ''),
             data.get('business_contact', ''),
-            data.get('business_social_network', '')
+            data.get('business_social_network', ''),
+            data.get('banner_path', '')
         ))
         
         manufacturer_id = cursor.lastrowid
@@ -572,7 +613,7 @@ def update_manufacturer(manufacturer_id):
             if file and file.filename != '' and allowed_file(file.filename):
                 # Generate unique filename
                 timestamp = int(datetime.now().timestamp())
-                filename = f"{secure_filename(name.lower().replace(' ', '_'))}_{timestamp}.{file.filename.rsplit('.', 1)[1].lower()}"
+                filename = f"{secure_filename(name.lower().replace(' ', '_'))}_logo_{timestamp}.{file.filename.rsplit('.', 1)[1].lower()}"
                 
                 # Save to Manufacturers folder
                 manufacturer_folder = os.path.join(app.config['UPLOAD_FOLDER'], 'Manufacturers')
@@ -581,12 +622,28 @@ def update_manufacturer(manufacturer_id):
                 file.save(file_path)
                 logo_path = f"Manufacturers/{filename}"
         
+        # Handle banner upload if provided
+        banner_path = existing_manufacturer['banner_path']  # Keep existing banner by default
+        if 'banner' in request.files:
+            file = request.files['banner']
+            if file and file.filename != '' and allowed_file(file.filename):
+                # Generate unique filename
+                timestamp = int(datetime.now().timestamp())
+                filename = f"{secure_filename(name.lower().replace(' ', '_'))}_banner_{timestamp}.{file.filename.rsplit('.', 1)[1].lower()}"
+                
+                # Save to Manufacturers folder
+                manufacturer_folder = os.path.join(app.config['UPLOAD_FOLDER'], 'Manufacturers')
+                os.makedirs(manufacturer_folder, exist_ok=True)
+                file_path = os.path.join(manufacturer_folder, filename)
+                file.save(file_path)
+                banner_path = f"Manufacturers/{filename}"
+        
         # Update manufacturer in database
         cursor.execute('''
             UPDATE manufacturers 
-            SET name = ?, description = ?, logo_path = ?, business_name = ?, business_address = ?, business_contact = ?, business_social_network = ?
+            SET name = ?, description = ?, logo_path = ?, business_name = ?, business_address = ?, business_contact = ?, business_social_network = ?, banner_path = ?
             WHERE id = ?
-        ''', (name, description, logo_path, business_name, business_address, business_contact, business_social_network, manufacturer_id))
+        ''', (name, description, logo_path, business_name, business_address, business_contact, business_social_network, banner_path, manufacturer_id))
         
         conn.commit()
         conn.close()

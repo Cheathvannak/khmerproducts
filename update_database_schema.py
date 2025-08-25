@@ -27,7 +27,8 @@ def update_manufacturers_table(db_path='khmer_products.db'):
             'business_name',
             'business_address', 
             'business_contact',
-            'business_social_network'
+            'business_social_network',
+            'banner_path'
         ]
         
         # Add new columns if they don't exist

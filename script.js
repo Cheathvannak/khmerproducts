@@ -48,6 +48,7 @@ async function loadAllData() {
             name: manufacturer.name,
             description: manufacturer.description || manufacturer.name,
             logoPath: manufacturer.logo_path,
+            bannerPath: manufacturer.banner_path,
             businessName: manufacturer.business_name || '',
             businessAddress: manufacturer.business_address || '',
             businessContact: manufacturer.business_contact || '',
@@ -411,6 +412,11 @@ function renderProducts() {
                                     const isSelected = manufacturer === selectedManufacturer;
                                     return `
                                         <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
+                                            ${manufacturerData && manufacturerData.bannerPath ? 
+                                                `<div class="manufacturer-banner">
+                                                    <img src="${manufacturerData.bannerPath}" alt="${manufacturer} Banner" class="manufacturer-banner-image">
+                                                </div>` : ''
+                                            }
                                             <div class="manufacturer-line"></div>
                                             <div class="manufacturer-header">
                                                 ${manufacturerData && manufacturerData.logoPath ? 
@@ -492,6 +498,11 @@ function renderProducts() {
                                 const isSelected = manufacturer === selectedManufacturer;
                                 return `
                                     <div class="manufacturer-card ${isSelected ? 'selected' : ''}" data-manufacturer="${manufacturer}" onclick="selectManufacturer('${manufacturer}')">
+                                        ${manufacturerData && manufacturerData.bannerPath ? 
+                                            `<div class="manufacturer-banner">
+                                                <img src="${manufacturerData.bannerPath}" alt="${manufacturer} Banner" class="manufacturer-banner-image">
+                                            </div>` : ''
+                                        }
                                         <div class="manufacturer-line"></div>
                                         <div class="manufacturer-header">
                                             ${manufacturerData && manufacturerData.logoPath ? 

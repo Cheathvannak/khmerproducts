@@ -6,6 +6,37 @@
     margin-top: 2rem;
 }
 
+.search-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: var(--bg-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+}
+
 .manage-section {
     background: var(--card-bg);
     border-radius: 12px;
@@ -176,7 +207,8 @@
     justify-content: center;
 }
 
-.modal-content {
+#editProductModal .modal-content,
+#editManufacturerModal .modal-content {
     background: var(--card-bg);
     border-radius: 12px;
     padding: 0;
@@ -186,6 +218,9 @@
     overflow-y: auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease-out;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+    position: relative;
 }
 
 @keyframes modalSlideIn {
